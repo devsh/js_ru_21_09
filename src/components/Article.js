@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import CommentList from "./CommentList";
 
 class Article extends Component {
     static defaultProps = {
@@ -10,7 +11,8 @@ class Article extends Component {
         article: PropTypes.shape({
             title: PropTypes.string.isRequired,
             text: PropTypes.string,
-            date: PropTypes.string.isRequired
+            date: PropTypes.string.isRequired,
+            comments: PropTypes.array
         }).isRequired,
         isOpen: PropTypes.bool,
         onClick: PropTypes.func
@@ -18,7 +20,12 @@ class Article extends Component {
 
     render() {
         const {article, isOpen, onButtonClick} = this.props
-        const body = isOpen && <section>{article.text}</section>
+        const commentsElement = article.comments ? <CommentList comments={article.comments}/> : null
+        const body = isOpen &&
+            (<section>
+                {article.text}
+                {commentsElement}
+            </section>)
         return (
             <div>
                 <h2>

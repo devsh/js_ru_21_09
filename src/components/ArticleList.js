@@ -3,6 +3,14 @@ import PropTypes from 'prop-types'
 import Article from './Article'
 
 class ArticleList extends Component {
+    static propTypes = {
+        articles: PropTypes.array.isRequired
+    }
+
+    static defaultProps = {
+        articles: []
+    }
+
     state = {
         openArticleId: null
     }
@@ -24,17 +32,10 @@ class ArticleList extends Component {
     }
 
     toggleArticle = (openArticleId) => (ev) => {
-        this.setState({openArticleId})
+        this.setState({
+            openArticleId: openArticleId === this.state.openArticleId ? null : openArticleId
+        })
     }
-}
-
-
-ArticleList.defaultProps = {
-    articles: []
-}
-
-ArticleList.propTypes = {
-    articles: PropTypes.array.isRequired
 }
 
 export default ArticleList
