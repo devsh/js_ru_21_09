@@ -7,7 +7,7 @@ class CommentList extends Component {
             id: PropTypes.string.isRequired,
             user: PropTypes.string.isRequired,
             text: PropTypes.string.isRequired
-        })).isRequired
+        }))
     }
 
     state = {
@@ -17,22 +17,27 @@ class CommentList extends Component {
     render() {
         const {comments} = this.props
         const {isOpen} = this.state
-        const commentsElement = comments.map(comment =>
-            (<li key={comment.id}>
-                <h3>{comment.user}</h3>
-                {comment.text}
-            </li>));
-        const commentsListElement = isOpen ? <ul>{commentsElement}</ul> : null
-
-        return (
-            <div>
-                <h2>Comments:</h2>
+        const commentsListElement = isOpen && comments ? (<ul>
+            {comments.map(comment =>
+                (<li key={comment.id}>
+                    <h3>{comment.user}</h3>
+                    {comment.text}
+                </li>))}
+        </ul>) : null
+        const commentsContent = comments && comments.lenght ? (
+            <section>
                 <button onClick={this.toggleComments}>
                     { isOpen ? 'hide' : 'show' }
                 </button>
                 {commentsListElement}
+            </section>) : 'no comments'
+
+        return (
+            <div>
+                <h2>Comments:</h2>
+                {commentsContent}
             </div>
-        );
+        )
     }
 
     toggleComments = () => {

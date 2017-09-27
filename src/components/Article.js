@@ -20,11 +20,11 @@ class Article extends Component {
 
     render() {
         const {article, isOpen, onButtonClick} = this.props
-        const commentsElement = article.comments ? <CommentList comments={article.comments}/> : null
+        
         const body = isOpen &&
             (<section>
                 {article.text}
-                {commentsElement}
+                <CommentList comments={article.comments}/>
             </section>)
         return (
             <div>
