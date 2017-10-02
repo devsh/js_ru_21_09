@@ -28,8 +28,12 @@
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
+    "css-loader": "^0.28.7",
     "prop-types": "^15.5.10",
-    "react": "^15.5.0",
-    "react-dom": "^15.5.0"
+    "react": "16",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-dom": "16",
+    "react-select": "1.0.0-rc.10",
+    "style-loader": "^0.18.2"
   }
 }

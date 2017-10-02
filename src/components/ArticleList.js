@@ -1,19 +1,22 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Article from './Article'
+import Accordion from './Accordion'
 
-class ArticleList extends Component {
+class ArticleList extends Accordion {
     state = {
-        openArticleId: null
+        error: null
     }
 
     render() {
         const {articles} = this.props
+        if (this.state.error) return <h2>Error: {this.state.error.message}</h2>
         if (!articles.length) return <h3>No Articles</h3>
+
         const articleElements = articles.map((article) => <li key={article.id}>
             <Article article={article}
-                     isOpen={article.id === this.state.openArticleId}
-                     onButtonClick={this.toggleArticle(article.id)}
+                     isOpen={article.id === this.state.openItemId}
+                     onButtonClick={this.toggleOpenItemMemoized(article.id)}
             />
         </li>)
         return (
@@ -23,8 +26,9 @@ class ArticleList extends Component {
         )
     }
 
-    toggleArticle = (openArticleId) => (ev) => {
-        this.setState({openArticleId})
+    componentDidCatch(error, info) {
+        console.log('---', 123, error, info)
+        this.setState({ error })
     }
 }
 
