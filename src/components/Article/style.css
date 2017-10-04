@@ -9,9 +9,11 @@
 
 .article-leave {
     opacity: 1;
+    max-height: 100%;
 }
 
 .article-leave.article-leave-active {
     opacity: 0.01;
-    transition: opacity 300ms ease-in;
+    max-height: 0.01px;
+    transition: opacity 300ms ease-in, max-height 300ms linear;
 }
