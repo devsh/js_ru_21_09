@@ -3,6 +3,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import PropTypes from 'prop-types'
 import CommentList from '../CommentList'
 import {findDOMNode} from 'react-dom'
+import {connect} from 'react-redux'
+import {deleteArticle} from '../../AC'
 import './style.css'
 
 class Article extends PureComponent {
@@ -37,6 +39,7 @@ class Article extends PureComponent {
                         {isOpen ? 'close' : 'open'}
                     </button>
                     <span onClick = {this.increment}>Clicked: {this.state.clicked} times</span>
+                    <button onClick = {this.handleDelete}>delete me</button>
                 </h2>
                 <ReactCSSTransitionGroup
                     transitionName = 'article'
@@ -82,7 +85,12 @@ class Article extends PureComponent {
     increment = () => this.setState({
         clicked: this.state.clicked + 1
     })
+
+    handleDelete = () => {
+        console.log('---', 'deleting')
+        this.props.deleteArticle(this.props.article.id)
+    }
 }
 
 
-export default Article
+export default connect(null, { deleteArticle })(Article)
