@@ -14,7 +14,7 @@ class ArticleList extends Accordion {
         if (this.state.error) return <h2>Error: {this.state.error.message}</h2>
         if (!articles.length) return <h3>No Articles</h3>
 
-        const articleElements = articles.map((article) => <li key={article.id}>
+        const articleElements = articles.filter((article) => article.visible).map((article) => <li key={article.id}>
             <Article article={article}
                      isOpen={article.id === this.state.openItemId}
                      onButtonClick={this.toggleOpenItemMemoized(article.id)}
@@ -43,5 +43,5 @@ ArticleList.propTypes = {
 }
 
 export default connect((state) => ({
-    articles: state.articles
+    articles: state.articles.list
 }))(ArticleList)
