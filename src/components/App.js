@@ -17,7 +17,7 @@ class App extends Component {
                 <h1>App name</h1>
                 <Counter />
                 User: <input type = 'text' value = {username} onChange = {this.handleUserChange}/>
-                <Filters articles = {[]}/>
+                <Filters />
                 <ArticleList />
             </div>
         )
