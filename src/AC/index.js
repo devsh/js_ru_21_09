@@ -30,6 +30,12 @@ export function changeSelection(selected) {
 export function addComment(comment, articleId) {
     return {
         type: ADD_COMMENT,
-        payload: { comment, articleId, neededIdObject: "comment" }
+        payload: {
+            comment,
+            articleId,
+            idReceiver: function(id) {
+                this.comment.id = id
+            }
+        }
     }
 }
