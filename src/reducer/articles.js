@@ -1,6 +1,7 @@
-import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, SUCCESS, START } from '../constants'
+import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, SUCCESS, START, LOAD_ARTICLE_COMMENTS } from '../constants'
 import {arrToMap} from './utils'
-import {Record, OrderedMap} from 'immutable'
+import {ReducerRecord} from './constants'
+import {Record} from 'immutable'
 
 const ArticleRecord = Record({
     id: null,
@@ -8,13 +9,9 @@ const ArticleRecord = Record({
     text: null,
     date: null,
     comments: [],
-    loading: false
-})
-
-const ReducerRecord = Record({
-    entities: new OrderedMap({}),
     loading: false,
-    loaded: false
+    commentsLoading: false,
+    commentsLoaded: false
 })
 
 export default (state = new ReducerRecord(), action) => {
@@ -41,7 +38,18 @@ export default (state = new ReducerRecord(), action) => {
             return state.setIn(['entities', payload.id, 'loading'], true)
 
         case LOAD_ARTICLE + SUCCESS:
-            return state.setIn(['entities', payload.id], new ArticleRecord(payload.response))
+            return state
+                .setIn(['entities', payload.id, 'loading'], false)
+                .setIn(['entities', payload.id], new ArticleRecord(payload.response))
+        
+        case LOAD_ARTICLE_COMMENTS + START:
+            return state.setIn(['entities', payload.id, 'commentsLoading'], true)
+            
+        case LOAD_ARTICLE_COMMENTS + SUCCESS:
+            return state
+                .setIn(['entities', payload.id, 'commentsLoading'], false)
+                .setIn(['entities', payload.id, 'commentsLoaded'], true)
+
     }
 
     return state
