@@ -2,9 +2,10 @@ import React, {Component, PureComponent} from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import PropTypes from 'prop-types'
 import CommentList from '../CommentList'
+import Loader from '../Loader'
 import {findDOMNode} from 'react-dom'
 import {connect} from 'react-redux'
-import {deleteArticle} from '../../AC'
+import {deleteArticle, loadArticle} from '../../AC'
 import './style.css'
 
 class Article extends PureComponent {
@@ -24,6 +25,10 @@ class Article extends PureComponent {
 
     state = {
         clicked: 0
+    }
+
+    componentWillReceiveProps({isOpen, article, loadArticle}) {
+        if (!this.props.isOpen && isOpen && !article.text && !article.loading) loadArticle(article.id)
     }
 
     render() {
@@ -58,11 +63,12 @@ class Article extends PureComponent {
         const {isOpen, article} = this.props
 
         if (!isOpen) return null
+        if (article.loading) return <Loader />
 
         return (
             <div>
                 <section>{article.text}</section>
-                <CommentList comments = {article.comments} ref = {this.setCommentsRef} key = {this.state.clicked}/>
+                <CommentList article = {article} ref = {this.setCommentsRef} key = {this.state.clicked}/>
             </div>
         )
     }
@@ -93,4 +99,4 @@ class Article extends PureComponent {
 }
 
 
-export default connect(null, { deleteArticle })(Article)
+export default connect(null, { deleteArticle, loadArticle })(Article)
