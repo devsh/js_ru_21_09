@@ -14,25 +14,29 @@ class Article extends PureComponent {
     }
 
     static propTypes = {
+        id: PropTypes.string.isRequired,
+        isOpen: PropTypes.bool,
+        onClick: PropTypes.func,
+        //from connect
         article: PropTypes.shape({
             title: PropTypes.string.isRequired,
             text: PropTypes.string,
             date: PropTypes.string.isRequired
         }).isRequired,
-        isOpen: PropTypes.bool,
-        onClick: PropTypes.func
     }
 
     state = {
         clicked: 0
     }
 
-    componentWillReceiveProps({isOpen, article, loadArticle}) {
-        if (!this.props.isOpen && isOpen && !article.text && !article.loading) loadArticle(article.id)
+    componentDidMount() {
+        const {isOpen, id, loadArticle} = this.props
+        if (isOpen) loadArticle(id)
     }
 
     render() {
         const {article, isOpen, onButtonClick} = this.props
+        if (!article) return null
 
         if (this.state.clicked > 3) throw new Error('clicked more then 3 times')
 
@@ -40,9 +44,6 @@ class Article extends PureComponent {
             <div>
                 <h2 ref = {this.setHeaderRef}>
                     {article.title}
-                    <button onClick={onButtonClick}>
-                        {isOpen ? 'close' : 'open'}
-                    </button>
                     <span onClick = {this.increment}>Clicked: {this.state.clicked} times</span>
                     <button onClick = {this.handleDelete}>delete me</button>
                 </h2>
@@ -99,4 +100,6 @@ class Article extends PureComponent {
 }
 
 
-export default connect(null, { deleteArticle, loadArticle })(Article)
+export default connect((state, { id }) => ({
+    article: state.articles.getIn(['entities', id])
+}), { deleteArticle, loadArticle })(Article)
