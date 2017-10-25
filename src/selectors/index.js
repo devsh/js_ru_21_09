@@ -24,3 +24,24 @@ export const createCommentSelector = () => {
         return comments.get(id)
     })
 }
+
+export const pageSelector = (_, {offset, limit}) => ({offset, limit})
+export const loadedCommentsSelector = state => state.comments.loadedEntities
+export const loadingCommentsSelector = state => state.comments.loadingEntities
+export const countCommentsSelector = state => state.comments.count
+export const createCommentsForPageSelector = () => {
+    return createSelector(loadingCommentsSelector, loadedCommentsSelector, countCommentsSelector, pageSelector,
+        (loadingComments, loadedComments, count, {offset, limit}) => {
+            const comments = loadedComments.toJS().slice(offset, offset + limit)
+
+            return {
+                comments,
+                loading: loadingComments
+                    .toJS()
+                    .slice(offset, offset + limit)
+                    .some(item => item),
+                loaded: comments.every(item => item) && count !== null && !(comments.length === 0 && count > offset),
+                total: count
+            }
+    })
+}
