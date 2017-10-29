@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {Route} from 'react-router-dom'
 import ArticleList from '../ArticleList'
 import Article from '../Article'
@@ -8,11 +9,16 @@ class ArticlesPage extends Component {
 
     };
 
+    static contextTypes = {
+        translation: PropTypes.object
+    }
+
     render() {
         console.log('---', 2)
+        const {translation} = this.context
         return (
             <div>
-                <h3>Article List</h3>
+                <h3>{translation['articles.articleList']}</h3>
                 <ArticleList />
                 <Route path = '/articles/:id' children = {this.getArticleView}/>
             </div>
@@ -20,7 +26,8 @@ class ArticlesPage extends Component {
     }
 
     getArticleView = ({ match }) => {
-        if (!match) return <h2>Select some article</h2>
+        const {translation} = this.context
+        if (!match) return <h2>{translation['articles.selectSomeArticle']}</h2>
 
         return <Article isOpen id = {match.params.id} key = {match.params.id} />
     }

@@ -8,10 +8,20 @@ class Counter extends Component {
 
     };
 
+    static contextTypes = {
+        translation: PropTypes.object
+    }
+
     render() {
+        const {translation} = this.context
         return (
             <div>
-                <h3>Count: {this.props.count} <button onClick = {this.handleIncrement}>Increment</button></h3>
+                <h3>
+                    {translation['count.title']}: {this.props.count}
+                    <button onClick = {this.handleIncrement}>
+                        {translation['count.increment']}
+                    </button>
+                </h3>
             </div>
         )
     }

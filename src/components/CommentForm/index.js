@@ -8,21 +8,26 @@ class CommentForm extends Component {
     static propTypes = {
     };
 
+    static contextTypes = {
+        translation: PropTypes.object
+    }
+
     state = {
         user: '',
         text: ''
     }
 
     render() {
+        const {translation} = this.context
         return (
             <form onSubmit = {this.handleSubmit}>
-                user: <input value = {this.state.user}
+                {translation['comments.user']}: <input value = {this.state.user}
                              onChange = {this.handleChange('user')}
                              className = {this.getClassName('user')} />
-                comment: <input value = {this.state.text}
+                {translation['comments.text']}: <input value = {this.state.text}
                                 onChange = {this.handleChange('text')}
                                 className = {this.getClassName('text')} />
-                <input type = "submit" value = "submit"/>
+                <input type = "submit" value = {translation['comments.submit']}/>
             </form>
         )
     }

@@ -25,6 +25,10 @@ class Article extends Component {
         }).isRequired,
     }
 
+    static contextTypes = {
+        translation: PropTypes.object
+    }
+
     state = {
         clicked: 0
     }
@@ -37,6 +41,7 @@ class Article extends Component {
     render() {
         console.log('---', 3)
         const {article, isOpen, onButtonClick} = this.props
+        const {translation} = this.context
         if (!article) return null
 
         if (this.state.clicked > 3) throw new Error('clicked more then 3 times')
@@ -45,8 +50,12 @@ class Article extends Component {
             <div>
                 <h2 ref = {this.setHeaderRef}>
                     {article.title}
-                    <span onClick = {this.increment}>Clicked: {this.state.clicked} times</span>
-                    <button onClick = {this.handleDelete}>delete me</button>
+                    <span onClick = {this.increment}>
+                        {`${translation['articles.clicked']}: `}
+                        {this.state.clicked}
+                        {` ${translation['articles.times']}`}
+                    </span>
+                    <button onClick = {this.handleDelete}>{translation['articles.deleteMe']}</button>
                 </h2>
                 <ReactCSSTransitionGroup
                     transitionName = 'article'
@@ -56,7 +65,7 @@ class Article extends Component {
                 >
                     {this.getBody()}
                 </ReactCSSTransitionGroup>
-                <h3>creation date: {(new Date(article.date)).toDateString()}</h3>
+                <h3>{translation['articles.creationDate']}: {(new Date(article.date)).toDateString()}</h3>
             </div>
         )
     }

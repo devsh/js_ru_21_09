@@ -7,37 +7,32 @@ import Filters from './Filters'
 import Counter from './Counter'
 import Menu, {MenuItem} from './Menu'
 
+
 class App extends Component {
+    static contextTypes = {
+        translation: PropTypes.object
+    }
+
     state = {
         username: ''
     }
 
-    static childContextTypes = {
-        user: PropTypes.string
-    }
-
-    getChildContext() {
-        return {
-            user: this.state.username
-        }
-    }
-
     render() {
         const {username} = this.state
-        console.log('---', 1)
+        const {translation} = this.context
 
         return (
             <div>
-                <h1>App name</h1>
+                <h1>{translation['app.name']}</h1>
                 <Menu>
-                    <MenuItem to = '/articles'>articles</MenuItem>
-                    <MenuItem to = '/filters'>filters</MenuItem>
-                    <MenuItem to = '/counter'>counter</MenuItem>
-                    <MenuItem to = '/comments/1'>comments</MenuItem>
+                    <MenuItem to = '/articles'>{translation['app.articles']}</MenuItem>
+                    <MenuItem to = '/filters'>{translation['app.filters']}</MenuItem>
+                    <MenuItem to = '/counter'>{translation['app.counter']}</MenuItem>
+                    <MenuItem to = '/comments/1'>{translation['app.comments']}</MenuItem>
                 </Menu>
-                User: <input type = 'text' value = {username} onChange = {this.handleUserChange}/>
+                {translation['app.user']}: <input type = 'text' value = {username} onChange = {this.handleUserChange}/>
                 <Switch>
-                    <Redirect from = '/' exact to = '/articles'/>
+                    {/*<Redirect from = '/' exact to = '/articles'/>*/}
                     <Route path = '/counter' component = {Counter} exact />
                     <Route path = '/filters' component = {Filters} />
                     <Route path = '/articles/new' render = {this.newArticlePage} />

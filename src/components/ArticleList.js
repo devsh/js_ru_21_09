@@ -9,6 +9,10 @@ import {filtratedArticlesSelector} from '../selectors'
 import {checkAndLoadAllArticles} from '../AC'
 
 class ArticleList extends Accordion {
+    static contextTypes = {
+        translation: PropTypes.object
+    }
+
     constructor(props) {
         super(props)
 
@@ -26,9 +30,11 @@ class ArticleList extends Accordion {
     render() {
         console.log('---', 'rerendering ArticleList')
         const {articles, loading} = this.props
+        const {translation} = this.context
+
         if (loading) return <Loader />
-        if (this.state.error) return <h2>Error: {this.state.error.message}</h2>
-        if (!articles.length) return <h3>No Articles</h3>
+        if (this.state.error) return <h2>{translation['articles.error']}: {this.state.error.message}</h2>
+        if (!articles.length) return <h3>{translation['articles.noArticles']}</h3>
 
         const articleElements = articles.map((article) => <li key={article.id}>
             <NavLink to = {`/articles/${article.id}`} activeStyle = {{color: 'red'}}>
