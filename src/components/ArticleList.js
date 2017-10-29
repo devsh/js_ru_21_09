@@ -62,5 +62,6 @@ export default connect(state => {
     return {
         articles: filtratedArticlesSelector(state),
         loading: state.articles.loading,
+        router: state.router
     }
-}, { checkAndLoadAllArticles })(ArticleList)
+}, { checkAndLoadAllArticles }, null, { pure: true })(ArticleList)

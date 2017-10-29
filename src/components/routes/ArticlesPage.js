@@ -9,9 +9,10 @@ class ArticlesPage extends Component {
     };
 
     render() {
-        console.log('---', 'Article Page Match', this.props.match)
+        console.log('---', 2)
         return (
             <div>
+                <h3>Article List</h3>
                 <ArticleList />
                 <Route path = '/articles/:id' children = {this.getArticleView}/>
             </div>
@@ -20,8 +21,6 @@ class ArticlesPage extends Component {
 
     getArticleView = ({ match }) => {
         if (!match) return <h2>Select some article</h2>
-
-        console.log('---', 'Article Match', match)
 
         return <Article isOpen id = {match.params.id} key = {match.params.id} />
     }

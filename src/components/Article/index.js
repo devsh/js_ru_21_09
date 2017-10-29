@@ -8,7 +8,7 @@ import {connect} from 'react-redux'
 import {deleteArticle, loadArticle} from '../../AC'
 import './style.css'
 
-class Article extends PureComponent {
+class Article extends Component {
     static defaultProps = {
 
     }
@@ -35,6 +35,7 @@ class Article extends PureComponent {
     }
 
     render() {
+        console.log('---', 3)
         const {article, isOpen, onButtonClick} = this.props
         if (!article) return null
 
@@ -102,4 +103,4 @@ class Article extends PureComponent {
 
 export default connect((state, { id }) => ({
     article: state.articles.getIn(['entities', id])
-}), { deleteArticle, loadArticle })(Article)
+}), { deleteArticle, loadArticle }, null, { pure: false })(Article)
